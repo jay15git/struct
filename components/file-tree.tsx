@@ -1,14 +1,5 @@
 import * as React from 'react';
 import {
-    FileCode2,
-    FileJson,
-    FileText,
-    FileType2,
-    FileBadge2,
-    FileImage,
-    FileIcon,
-} from 'lucide-react';
-import {
     FolderItem,
     FolderTrigger,
     FolderContent,
@@ -16,38 +7,10 @@ import {
     FileItem,
 } from '@/components/animate-ui/components/radix/files';
 import { type FileNode } from '@/lib/github';
+import { getFileIcon } from '@/lib/icon-map';
 
 type FileTreeProps = {
     data: FileNode[];
-};
-
-const getFileIcon = (name: string) => {
-    const extension = name.split('.').pop()?.toLowerCase();
-    switch (extension) {
-        case 'ts':
-        case 'tsx':
-        case 'js':
-        case 'jsx':
-            return FileCode2;
-        case 'json':
-            return FileJson;
-        case 'md':
-        case 'txt':
-            return FileText;
-        case 'css':
-        case 'scss':
-            return FileType2;
-        case 'svg':
-        case 'png':
-        case 'jpg':
-        case 'jpeg':
-            return FileImage;
-        case 'config':
-        case 'lock':
-            return FileBadge2;
-        default:
-            return FileIcon;
-    }
 };
 
 export function FileTree({ data }: FileTreeProps) {
