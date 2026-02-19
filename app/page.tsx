@@ -1,109 +1,24 @@
-'use client';
+import Link from 'next/link';
 
-import * as React from 'react';
-import { Files } from "@/components/animate-ui/components/radix/files";
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/animate-ui/components/radix/sidebar";
-import { FileTree } from "@/components/file-tree";
-import { getRepoTree, type FileNode } from "@/lib/github";
-import { LayoutDashboard, Settings, Users, FolderOpen } from "lucide-react";
-
-const page = () => {
-  const [data, setData] = React.useState<FileNode[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        // Defaulting to tw-animate-css for demonstration
-        const tree = await getRepoTree('sipeed', 'picoclaw');
-        setData(tree);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
-
+export default function LandingPage() {
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton isActive>
-                    <LayoutDashboard />
-                    <span>Dashboard</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton>
-                    <FolderOpen />
-                    <span>Projects</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton>
-                    <Users />
-                    <span>Team</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton>
-                    <Settings />
-                    <span>Settings</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger />
-          <h1 className="text-lg font-semibold">GitHub Repo Structure</h1>
-        </header>
-        <main className="p-8">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <p className="text-muted-foreground">Loading repository structure...</p>
-            </div>
-          ) : error ? (
-            <div className="p-4 border border-destructive/50 bg-destructive/10 text-destructive rounded-lg">
-              Error: {error}
-            </div>
-          ) : (
-            <div className="max-w-md mx-auto">
-              <div className="border rounded-xl overflow-hidden shadow-sm bg-card">
-                <Files>
-                  <FileTree data={data} />
-                </Files>
-              </div>
-            </div>
-          )}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background p-8">
+      <main className="max-w-2xl text-center space-y-6">
+        <h1 className="text-5xl font-bold tracking-tight">
+          Welcome to <span className="text-primary">Structify</span>
+        </h1>
+        <p className="text-xl text-muted-foreground">
+          Explore and visualize GitHub repositories with ease.
+        </p>
+        <div className="flex gap-4 justify-center pt-4">
+          <Link
+            href="/docs"
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+          >
+            Go to Docs
+          </Link>
+        </div>
+      </main>
+    </div>
   );
 }
-
-export default page;
