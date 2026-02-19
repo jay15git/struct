@@ -18,6 +18,7 @@ import {
 import { FileTree } from "@/components/file-tree";
 import { getRepoTree, type FileNode } from "@/lib/github";
 import { LayoutDashboard, Settings, Users, FolderOpen } from "lucide-react";
+import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
 
 const DocsPage = () => {
     const [data, setData] = React.useState<FileNode[]>([]);
@@ -78,9 +79,12 @@ const DocsPage = () => {
                 </SidebarContent>
             </Sidebar>
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                    <SidebarTrigger />
-                    <h1 className="text-lg font-semibold">GitHub Repo Structure</h1>
+                <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+                    <div className="flex items-center gap-2">
+                        <SidebarTrigger />
+                        <h1 className="text-lg font-semibold">GitHub Repo Structure</h1>
+                    </div>
+                    <ThemeTogglerButton variant="outline" size="sm" />
                 </header>
                 <main className="p-8">
                     {loading ? (
