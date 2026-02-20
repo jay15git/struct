@@ -55,7 +55,24 @@ function ThemeTogglerButton({
   className,
   ...props
 }: ThemeTogglerButtonProps) {
+  const [mounted, setMounted] = React.useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <button
+        data-slot="theme-toggler-button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+      >
+        <Sun />
+      </button>
+    );
+  }
 
   return (
     <ThemeTogglerPrimitive

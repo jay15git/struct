@@ -19,6 +19,34 @@ import { FileTree } from "@/components/file-tree";
 import { getRepoTree, type FileNode } from "@/lib/github";
 import { LayoutDashboard, Settings, Users, FolderOpen } from "lucide-react";
 import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
+import {
+    Tabs,
+    TabsList,
+    TabsTrigger,
+    TabsContents,
+    TabsContent,
+} from "@/components/animate-ui/components/animate/tabs";
+import {
+    Code,
+    CodeHeader,
+    CodeBlock
+} from "@/components/animate-ui/components/animate/code";
+import { FileCode } from "lucide-react";
+
+const sampleCode = `import * as React from 'react';
+
+export default function App() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <h1 className="text-4xl font-bold text-primary">
+        Hello Structify!
+      </h1>
+      <p className="mt-4 text-muted-foreground">
+        Visualizing repositories has never been easier.
+      </p>
+    </div>
+  );
+}`;
 
 const DocsPage = () => {
     const [data, setData] = React.useState<FileNode[]>([]);
@@ -96,11 +124,45 @@ const DocsPage = () => {
                             Error: {error}
                         </div>
                     ) : (
-                        <div className="max-w-md mx-auto">
-                            <div className="border rounded-xl overflow-hidden shadow-sm bg-card">
+                        <div className="flex gap-8 items-start">
+                            {/* File Tree column */}
+                            <div className="w-80 border rounded-xl overflow-hidden shadow-sm bg-card shrink-0">
                                 <Files>
                                     <FileTree data={data} />
                                 </Files>
+                            </div>
+
+                            {/* Tabs column */}
+                            <div className="flex-1 min-w-0">
+                                <Tabs defaultValue="code">
+                                    <TabsList>
+                                        <TabsTrigger value="code">Code</TabsTrigger>
+                                        <TabsTrigger value="preview">Preview</TabsTrigger>
+                                        <TabsTrigger value="info">Info</TabsTrigger>
+                                    </TabsList>
+                                    <TabsContents className="mt-4">
+                                        <TabsContent value="code">
+                                            <Code code={sampleCode} className="min-h-100">
+                                                <CodeHeader icon={FileCode} copyButton>
+                                                    App.tsx
+                                                </CodeHeader>
+                                                <CodeBlock lang="tsx" writing />
+                                            </Code>
+                                        </TabsContent>
+                                        <TabsContent value="preview">
+                                            <div className="p-6 border rounded-lg bg-card min-h-100">
+                                                <h3 className="text-lg font-medium mb-4">Live Preview</h3>
+                                                <p className="text-muted-foreground">Preview of the selected component or file.</p>
+                                            </div>
+                                        </TabsContent>
+                                        <TabsContent value="info">
+                                            <div className="p-6 border rounded-lg bg-card min-h-100">
+                                                <h3 className="text-lg font-medium mb-4">Repository Info</h3>
+                                                <p className="text-muted-foreground">Detailed metadata about the current repository.</p>
+                                            </div>
+                                        </TabsContent>
+                                    </TabsContents>
+                                </Tabs>
                             </div>
                         </div>
                     )}
